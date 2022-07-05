@@ -9,9 +9,13 @@ import {
 import { RequestApi } from "../../../Helper/RequestApi";
 import { useLocalStorage } from "../../../Redux/customHooks/useLocalStorage";
 import { useEffect } from "react";
-export default function FavoriteCitys() {
+export default function FavoriteCitys({
+  arrFavoriteCities,
+  setArrFavoriteCities,
+}) {
   const dispath = useDispatch();
-  const [value, setValue] = useLocalStorage();
+  // const [value, setValue] = useLocalStorage();
+
   const showFavoriteCity = (event) => {
     const cityName = event.target.firstChild.data;
     RequestApi(cityName, CONFIG.WEATHER).then((res) => {
@@ -25,27 +29,23 @@ export default function FavoriteCitys() {
   const removeFavorite = (event) => {
     event.stopPropagation();
     const cityName = event.target.previousSibling.textContent;
-    const newArrCities = value.filter((item) => item !== cityName);
+    const newArrCities = arrFavoriteCities.filter((item) => item !== cityName);
     console.log(newArrCities);
-    setValue(() => newArrCities);
+    setArrFavoriteCities(() => newArrCities);
   };
 
-  const items = value
-    ? value.map((item) => (
-        <li className='item-city' key={item} onClick={showFavoriteCity}>
-          {item}
-          <button onClick={removeFavorite}>X</button>
-        </li>
-      ))
-    : "";
-
-  useEffect(() => {
-    const items = value;
-  }, [value]);
   return (
     <div className='box__content-right'>
       <div className='box__right-title'>Added Locations:</div>
-      <ul className='box__right-list'>{items}</ul>
+      <ul className='box__right-list'>
+        {arrFavoriteCities &&
+          arrFavoriteCities.map((item) => (
+            <li className='item-city' key={item} onClick={showFavoriteCity}>
+              {item}
+              <button onClick={removeFavorite}>X</button>
+            </li>
+          ))}
+      </ul>
     </div>
   );
 }

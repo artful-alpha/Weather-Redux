@@ -11,18 +11,18 @@ export const useLocalStorage = (state = []) => {
     return state;
   };
 
-  const [favoriteStore, setFavoriteStore] = useState(getArr);
+  const [arrFavoriteCities, setFavoriteStore] = useState(getArr);
 
   const setValue = (value) => {
     const valueToStore =
-      value instanceof Function ? value(favoriteStore) : value;
+      value instanceof Function ? value(arrFavoriteCities) : value;
 
     setFavoriteStore(valueToStore);
   };
 
   useEffect(() => {
-    localStorage.setItem("cities", JSON.stringify(favoriteStore));
-  }, [favoriteStore]);
+    localStorage.setItem("cities", JSON.stringify(arrFavoriteCities));
+  }, [arrFavoriteCities]);
 
-  return [favoriteStore, setValue];
+  return [arrFavoriteCities, setValue];
 };
