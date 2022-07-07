@@ -11,6 +11,8 @@ import FavoriteCitys from "./FavoriteCitys/FavoriteCitys";
 import { store } from "../../Redux/store";
 import { Provider } from "react-redux";
 import { useLocalStorage } from "../../Redux/customHooks/useLocalStorage";
+import { Routes, Route, Link } from "react-router-dom";
+import Help from "../Help";
 
 const TABS = {
   Now: "Now",
@@ -32,26 +34,28 @@ export default function Container() {
   };
 
   return (
-    <div className='box'>
-      <Provider store={store}>
-        <ContextWeather.Provider value={globalContext}>
-          <SearchForm />
-          <div className='box__content'>
-            <div className='box__content-left'>
-              <TabsContent
-                selectTab={tabsActive}
+    <>
+      <div className='box'>
+        <Provider store={store}>
+          <ContextWeather.Provider value={globalContext}>
+            <SearchForm />
+            <div className='box__content'>
+              <div className='box__content-left'>
+                <TabsContent
+                  selectTab={tabsActive}
+                  arrFavoriteCities={arrFavoriteCities}
+                  setArrFavoriteCities={setArrFavoriteCities}
+                />
+                <TabsSelect changeTab={changeTab} tabs={TABS} />
+              </div>
+              <FavoriteCitys
                 arrFavoriteCities={arrFavoriteCities}
                 setArrFavoriteCities={setArrFavoriteCities}
               />
-              <TabsSelect changeTab={changeTab} tabs={TABS} />
             </div>
-            <FavoriteCitys
-              arrFavoriteCities={arrFavoriteCities}
-              setArrFavoriteCities={setArrFavoriteCities}
-            />
-          </div>
-        </ContextWeather.Provider>
-      </Provider>
-    </div>
+          </ContextWeather.Provider>
+        </Provider>
+      </div>
+    </>
   );
 }

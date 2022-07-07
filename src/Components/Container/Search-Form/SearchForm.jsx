@@ -16,6 +16,7 @@ import {
   setWeatherInfo,
 } from "../../../Redux/actions/weatherAction";
 import { RequestApi } from "../../../Helper/RequestApi";
+import { setIncrementCitySearch } from "../../../Redux/actions/statisticAction";
 
 export default function SearchForm() {
   const dispatch = useDispatch();
@@ -52,7 +53,7 @@ export default function SearchForm() {
 
   const handlerSubmitForm = (e) => {
     e.preventDefault();
-
+    // dispatch(setIncrementCitySearch(searchCity));
     RequestApi(searchCity, CONFIG.WEATHER).then((res) => {
       dispatch(setWeatherInfo(res));
     });
